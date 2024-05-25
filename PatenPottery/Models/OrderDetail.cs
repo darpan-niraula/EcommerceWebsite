@@ -13,5 +13,8 @@
         public byte[] Image { get; set; }
 
         public int StatusCD { get; set; }
+        public CustomerDetail Customerdetail { get; set; }
+        public ProcessFlow ProcessFlow { get; set; }
+        public Code StatusCode { get; set; }
     }
 }

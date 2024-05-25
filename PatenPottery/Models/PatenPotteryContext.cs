@@ -13,29 +13,38 @@ namespace PatenPottery.Models
         {
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    // Configuring relationships for OrderDetail
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CustomerDetail>()
+            .HasKey(c => c.CustomerId);
 
-        //    // Example: One-to-Many relationship between CustomerDetail and OrderDetail
-        //    modelBuilder.Entity<OrderDetail>()
-        //        .HasOne(o => o.CustomerId)
-        //        .WithMany(c => c.OrderDetails)
-        //        .HasForeignKey(o => o.CustomerId);
+            modelBuilder.Entity<OrderDetail>()
+            .HasKey(c => c.OrderId);
 
-        //    // Example: One-to-Many relationship between ProcessFlow and OrderDetail
-        //    modelBuilder.Entity<OrderDetail>()
-        //        .HasOne(o => o.ProcessFlow)
-        //        .WithMany(p => p.OrderDetails)
-        //        .HasForeignKey(o => o.ProcessFlowId);
+            modelBuilder.Entity<ProcessFlow>()
+            .HasKey(c => c.ProcessFlowID);
 
-        //    // Example: One-to-One relationship between OrderDetail and Code
-        //    modelBuilder.Entity<OrderDetail>()
-        //        .HasOne(o => o.Code)
-        //        .WithOne(c => c.OrderDetail)
-        //        .HasForeignKey<OrderDetail>(o => o.CodeId);
+            modelBuilder.Entity<Code>()
+            .HasKey(c => c.CodeId);
 
-        //    // Configure other entities...
-        //}
+            modelBuilder.Entity<OrderDetail>()
+            .HasOne(o => o.Customerdetail)
+            .WithOne(c => c.OrderDetail)
+            .HasForeignKey<OrderDetail>(o => o.CustomerId);
+
+
+            modelBuilder.Entity<OrderDetail>()
+            .HasOne(o => o.ProcessFlow)
+            .WithOne(c => c.OrderDetail)
+            .HasForeignKey<OrderDetail>(o => o.ProcessFlowID);
+
+
+            modelBuilder.Entity<OrderDetail>()
+            .HasOne(o => o.StatusCode)
+            .WithOne(c => c.OrderDetail)
+            .HasForeignKey<OrderDetail>(o => o.StatusCD);
+            base.OnModelCreating(modelBuilder);
+
+        }
     }
 }

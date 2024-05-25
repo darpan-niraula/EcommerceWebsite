@@ -8,6 +8,8 @@
 
         public string Description { get; set; }
 
-        public int? ParentCodeId { get; set; } 
+        public int? ParentCodeId { get; set; }
+        public OrderDetail OrderDetail { get; set; }
+
     }
 }

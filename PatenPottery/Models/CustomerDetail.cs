@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PatenPottery.Models
+﻿namespace PatenPottery.Models
 {
     public class CustomerDetail
     {
@@ -8,10 +6,11 @@ namespace PatenPottery.Models
 
         public string Name { get; set; }
 
-        public int Number { get; set; } 
+        public int Number { get; set; }
 
         public string Email { get; set; }
 
         public string Address { get; set; }
+        public OrderDetail OrderDetail { get; set; }
     }
 }
