@@ -4,8 +4,14 @@ namespace PatenPottery.Models
 {
     public class CustomerDetail
     {
-        public string Id { get; set; }
+        public int CustomerId { get; set; }
 
-        public DataType Date {  get; set; }
+        public string Name { get; set; }
+
+        public int Number { get; set; } 
+
+        public string Email { get; set; }
+
+        public string Address { get; set; }
     }
 }
