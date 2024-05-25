@@ -1,10 +1,18 @@
 using Microsoft.EntityFrameworkCore;
+using PatenPottery.Interface;
 using PatenPottery.Models;
+using PatenPottery.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+// dependency injection start
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+// dependency injection end
+
 
 builder.Services.AddDbContext<PatenPotteryContext>(options =>
 {

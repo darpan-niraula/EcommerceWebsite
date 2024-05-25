@@ -10,7 +10,7 @@
 
         public string OrderNumber { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
         public int StatusCD { get; set; }
         public CustomerDetail Customerdetail { get; set; }
