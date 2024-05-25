@@ -17,6 +17,15 @@ namespace PatenPottery.Controllers
         {
             return View();
         }
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Products()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
