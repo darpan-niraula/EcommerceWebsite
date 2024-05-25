@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using PatenPottery.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<PatenPotteryContext>(options =>
+{
+    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database = PatenPotteryDB; Trusted_Connection=True;");
+});
 
 var app = builder.Build();
 
