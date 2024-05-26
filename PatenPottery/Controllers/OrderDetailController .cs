@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PatenPottery.Interface;
 using PatenPottery.Models;
 using PatenPottery.ViewModels;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 
 namespace PatenPottery.Controllers
 {
+    [Authorize]
     public class OrderDetailController : Controller
     {
         private readonly ILogger<OrderDetailController> _logger;
