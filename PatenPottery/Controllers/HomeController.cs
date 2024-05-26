@@ -27,6 +27,11 @@ namespace PatenPottery.Controllers
             return View();
         }
 
+        public IActionResult TrackOrder()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

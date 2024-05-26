@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace PatenPottery.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OrderDetailController : Controller
     {
         private readonly ILogger<OrderDetailController> _logger;
