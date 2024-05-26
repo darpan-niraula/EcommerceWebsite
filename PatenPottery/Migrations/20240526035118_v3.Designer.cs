@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatenPottery.Models;
 
@@ -11,9 +12,10 @@ using PatenPottery.Models;
 namespace PatenPottery.Migrations
 {
     [DbContext(typeof(PatenPotteryContext))]
-    partial class PatenPotteryContextModelSnapshot : ModelSnapshot
+    [Migration("20240526035118_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

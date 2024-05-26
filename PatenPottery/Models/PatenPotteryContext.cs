@@ -1,15 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace PatenPottery.Models
 {
-    public class PatenPotteryContext : DbContext
+    public class PatenPotteryContext : IdentityDbContext <IdentityUser>
     {
         public DbSet<CustomerDetail> CustomerDetails { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ProcessFlow> ProcessFlows { get; set; }
         public DbSet<Code> Codes { get; set; }
 
-        public PatenPotteryContext(DbContextOptions options) : base(options)
+        public PatenPotteryContext(DbContextOptions<PatenPotteryContext> options) : base(options)
         {
         }
 

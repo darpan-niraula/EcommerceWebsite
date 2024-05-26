@@ -2,8 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using PatenPottery.Interface;
 using PatenPottery.Models;
 using PatenPottery.Service;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+var connectionString = builder.Configuration.GetConnectionString("PatenPotteryContextConnection") ?? throw new InvalidOperationException("Connection string 'PatenPotteryContextConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -16,8 +20,21 @@ builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 
 builder.Services.AddDbContext<PatenPotteryContext>(options =>
 {
-    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database = PatenPotteryDB; Trusted_Connection=True;");
+    options.UseSqlServer(connectionString);
 });
+
+
+builder.Services.AddDbContext<PatenPotteryContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<PatenPotteryContext>();
+
+//builder.Services.AddDefaultIdentity<IdentityUser>()
+//                .AddEntityFrameworkStores<PatenPotteryContext>();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -34,10 +51,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+// UseEndpoints configuration
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
 
 app.Run();
