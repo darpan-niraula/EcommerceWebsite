@@ -15,15 +15,7 @@
                             <button type="submit" class="btn btn-primary">Track Order</button>
                         </form>
                         <div id="orderStatus" class="mt-3">
-                            @if (ViewBag.Error != null)
-                            {
-                                <p class="text-danger">@ViewBag.Error</p>
-                            }
-                            else if (ViewBag.OrderNumber != null)
-                            {
-                                <p>Order Number: @ViewBag.OrderNumber</p>
-                                <p>Status: @ViewBag.StatusDescription</p>
-                            }
+                            
                         </div>
                     </div>
                 </div>
@@ -31,3 +23,7 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script src="~/js/trackorder.js"></script>
+}

@@ -2,9 +2,6 @@
 using PatenPottery.Interface;
 using PatenPottery.Models;
 using PatenPottery.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PatenPottery.Service
 {
@@ -94,18 +91,18 @@ namespace PatenPottery.Service
         public async Task<OrderStatusViewModel> GetOrderStatusAsync(int orderId) // Implementation of the new method
         {
             var orderDetail = await _context.OrderDetails
-                .Where(o => o.OrderId == orderId)
-                .Select(o => new OrderStatusViewModel
-                {
-                    OrderNumber = o.OrderNumber,
-                    StatusDescription = _context.Codes
-                        .Where(c => c.CodeId == o.StatusCD)
-                        .Select(c => c.Description)
-                        .FirstOrDefault()
-                })
+                .Where(o => o.OrderId == orderId).Include(a => a.StatusCode)
                 .FirstOrDefaultAsync();
-
-            return orderDetail;
+            if (orderDetail == null)
+            {
+                return null;
+            }
+            var OrderDetailVM = new OrderStatusViewModel
+            {
+                OrderNumber = orderDetail.OrderNumber,
+                StatusDescription = orderDetail.StatusCode.Description
+            };
+            return OrderDetailVM;
         }
     }
 }

@@ -50,13 +50,11 @@ namespace PatenPottery.Controllers
             if (orderStatus == null)
             {
                 _logger.LogWarning($"Order with ID: {orderId} not found");
-                var Error = "Order not found";
-                return View();
+                return Json(new { success = false, message = "Order not found" });
             }
 
-            var OrderNumber = orderStatus.OrderNumber;
-            var StatusDescription = orderStatus.StatusDescription;
-            return View();
+            return Json(new { success = true, orderNumber = orderStatus.OrderNumber, statusDescription = orderStatus.StatusDescription });
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
