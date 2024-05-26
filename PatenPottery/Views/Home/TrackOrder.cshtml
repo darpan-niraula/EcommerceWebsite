@@ -1,19 +1,30 @@
-﻿<section class="page-section about-heading">
+﻿@model dynamic
+
+<section class="page-section about-heading">
     <div class="container">
         <div class="about-heading-content">
             <div class="row">
                 <div class="col-xl-9 col-lg-10 mx-auto">
                     <div class="bg-faded rounded p-5">
-                        
-                        <form>
+                        <form asp-action="TrackOrder" method="post">
                             <div class="mb-3">
                                 <label for="OrderID" class="form-label">Order ID</label>
-                                <input type="text" class="form-control" id="text" aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">Enter your Order ID</div>
+                                <input type="text" class="form-control" id="orderId" name="orderId" aria-describedby="orderHelp">
+                                <div id="orderHelp" class="form-text">Enter your Order ID</div>
                             </div>
                             <button type="submit" class="btn btn-primary">Track Order</button>
                         </form>
-                        
+                        <div id="orderStatus" class="mt-3">
+                            @if (ViewBag.Error != null)
+                            {
+                                <p class="text-danger">@ViewBag.Error</p>
+                            }
+                            else if (ViewBag.OrderNumber != null)
+                            {
+                                <p>Order Number: @ViewBag.OrderNumber</p>
+                                <p>Status: @ViewBag.StatusDescription</p>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
