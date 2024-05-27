@@ -17,7 +17,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    orderStatusDiv.innerHTML = `<p>Order Number: ${data.orderNumber}</p><p>Status: ${data.statusDescription}</p>`;
+                    const imageSrc = `data:image/jpg;base64,${data.image}`;
+                    orderStatusDiv.innerHTML = `<p>Order Number: ${data.orderNumber}</p><p>Status: ${data.statusDescription}</p><img src="${imageSrc}" alt="Order Image" style="width: 250px; height: 250px;" />`;
                 } else {
                     orderStatusDiv.innerHTML = `<p>${data.message}</p>`;
                 }

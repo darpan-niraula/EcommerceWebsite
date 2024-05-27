@@ -53,7 +53,7 @@ namespace PatenPottery.Controllers
                 return Json(new { success = false, message = "Order not found" });
             }
 
-            return Json(new { success = true, orderNumber = orderStatus.OrderNumber, statusDescription = orderStatus.StatusDescription });
+            return Json(new { success = true, orderNumber = orderStatus.OrderNumber, statusDescription = orderStatus.StatusDescription, image = orderStatus.Image});
 
         }
 

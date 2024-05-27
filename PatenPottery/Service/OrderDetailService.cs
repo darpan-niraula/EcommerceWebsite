@@ -103,7 +103,8 @@ namespace PatenPottery.Service
             var OrderDetailVM = new OrderStatusViewModel
             {
                 OrderNumber = orderDetail.OrderNumber,
-                StatusDescription = orderDetail.StatusCode.Description
+                StatusDescription = orderDetail.StatusCode.Description,
+                Image = Convert.ToBase64String(orderDetail.Image)
             };
             return OrderDetailVM;
         }
