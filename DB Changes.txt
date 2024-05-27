@@ -1,0 +1,3 @@
+DROP INDEX IX_OrderDetails_StatusCD ON dbo.OrderDetails;
+DROP INDEX IX_OrderDetails_CustomerId ON dbo.OrderDetails;
+DROP INDEX IX_OrderDetails_ProcessFlowID ON dbo.OrderDetails

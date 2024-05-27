@@ -72,8 +72,11 @@ namespace PatenPottery.Service
                         orderCreate.orderDetail.ProcessFlowID = orderCreate.processFlow.ProcessFlowID;
                         orderCreate.orderDetail.CustomerId = orderCreate.customerDetail.CustomerId;
                         orderCreate.orderDetail.StatusCD = (await Getcode("ORDER_RECEIVED")).CodeId;
-                        orderCreate.orderDetail.OrderNumber = Guid.NewGuid().ToString();
+                        orderCreate.orderDetail.OrderNumber = orderCreate.customerDetail.Number.ToString() + orderCreate.orderDetail.OrderId.ToString();
                         _context.Add(orderCreate.orderDetail);
+                        await _context.SaveChangesAsync();
+                        orderCreate.orderDetail.OrderNumber = orderCreate.customerDetail.Number.ToString() + orderCreate.orderDetail.OrderId.ToString();
+                        _context.Update(orderCreate.orderDetail);
                         await _context.SaveChangesAsync();
                         transaction1.Commit();
                     }
@@ -88,10 +91,10 @@ namespace PatenPottery.Service
             }
         }
 
-        public async Task<OrderStatusViewModel> GetOrderStatusAsync(int orderId) // Implementation of the new method
+        public async Task<OrderStatusViewModel> GetOrderStatusAsync(string orderId)
         {
             var orderDetail = await _context.OrderDetails
-                .Where(o => o.OrderId == orderId).Include(a => a.StatusCode)
+                .Where(o => o.OrderNumber == orderId).Include(a => a.StatusCode)
                 .FirstOrDefaultAsync();
             if (orderDetail == null)
             {

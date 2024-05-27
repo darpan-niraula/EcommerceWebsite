@@ -42,7 +42,7 @@ namespace PatenPottery.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TrackOrder(int orderId)
+        public async Task<IActionResult> TrackOrder(string orderId)
         {
             _logger.LogInformation($"Tracking order with ID: {orderId}");
 
