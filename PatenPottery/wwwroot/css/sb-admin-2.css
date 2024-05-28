@@ -11279,3 +11279,12 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.viewImageSmall {
+    max-width: 200px !important;
+    height: auto;
+}
+
+.dropdownMid {
+    width: fit-content !important;
+}

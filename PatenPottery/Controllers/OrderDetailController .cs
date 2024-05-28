@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace PatenPottery.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class OrderDetailController : Controller
     {
         private readonly ILogger<OrderDetailController> _logger;
@@ -67,16 +67,16 @@ namespace PatenPottery.Controllers
                 var result = await _orderDetailService.UpdateStatusAsync(newStatus);
                 if (result)
                 {
-                    return Ok(newStatus); 
+                    return Ok(newStatus);
                 }
                 else
                 {
-                    return NotFound(); 
+                    return NotFound();
                 }
             }
             else
             {
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
             }
         }
 
