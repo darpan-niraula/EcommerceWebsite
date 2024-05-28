@@ -11,8 +11,13 @@ namespace PatenPottery.Interface
         Task<Code> Getcode(string codeValue);
         Task<Code> Getcode(int codeid);
         Task<List<Code>> GetcodeByParent(string codeParent);
-        Task<List<OrderListView>> GetOrders();
+        Task<List<OrderListViewModel>> GetOrders();
 
         Task<OrderStatusViewModel> GetOrderStatusAsync(string orderId);
+
+        Task<OrderListViewModel> GetOrderDetails(string orderNum);
+
+        Task<bool> UpdateStatusAsync(string newStatus);
+                
     }
 }
