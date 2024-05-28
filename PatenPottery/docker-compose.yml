@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ppottery_app:
+    build: .
+    image: patanpottery:1.0
+    ports:
+      - "80:80"
+    container_name: ppottery
+    networks:
+      - ppottery_network
+    depends_on:
+      - sql_server
+    
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA="Y"
+    ports:
+      - "1433:1433"
+    container_name: mssql_server
+    networks:
+      - ppottery_network
+      
+networks:
+  ppottery_network:
+    name: ppottery_network
+    driver: bridge
