@@ -33,12 +33,12 @@ namespace PatenPottery.Service
             return codes;
         }
 
-        public async Task<List<OrderListView>> GetOrders()
+        public async Task<List<OrderListViewModel>> GetOrders()
         {
             var orders = await _context.OrderDetails
                 .Include(a => a.Customerdetail)
                 .Include(a => a.ProcessFlow)
-                .Include(a => a.StatusCode).Select(a => new OrderListView(a))
+                .Include(a => a.StatusCode).Select(a => new OrderListViewModel(a))
                 .ToListAsync();
             return orders;
         }
@@ -108,5 +108,17 @@ namespace PatenPottery.Service
             };
             return OrderDetailVM;
         }
+
+        public async Task<OrderListViewModel> GetOrderDetails(string orderNum)
+        {
+            var order = await _context.OrderDetails
+                .Where(a => a.OrderNumber == orderNum)
+                .Include(a => a.Customerdetail)
+                .Include(a => a.ProcessFlow)
+                .Include(a => a.StatusCode).Select(a => new OrderListViewModel(a))
+                .FirstOrDefaultAsync();
+            return order;
+        }
+
     }
 }

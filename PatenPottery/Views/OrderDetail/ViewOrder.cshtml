@@ -1,0 +1,29 @@
+﻿@model PatenPottery.ViewModels.OrderListViewModel
+
+@{
+    ViewData["Title"] = "View Order";
+    Layout = null;
+}
+
+<h1>Order Details</h1>
+
+<div class="form-group">
+    <label>Order Number</label>
+    <p class="form-control-static">@Model.OrderNumber</p>
+</div>
+<div class="form-group">
+    <label>Name</label>
+    <p class="form-control-static">@Model.Name</p>
+</div>
+<div class="form-group">
+    <label>Number</label>
+    <p class="form-control-static">@Model.Number</p>
+</div>
+<div class="form-group">
+    <label>Address</label>
+    <p class="form-control-static">@Model.Address</p>
+</div>
+<div class="form-group">
+    <label>Status</label>
+    <p class="form-control-static">@Model.Status</p>
+</div>

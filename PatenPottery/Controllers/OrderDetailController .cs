@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace PatenPottery.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OrderDetailController : Controller
     {
         private readonly ILogger<OrderDetailController> _logger;
@@ -42,6 +42,23 @@ namespace PatenPottery.Controllers
             }
             return View(model);
         }
+
+        public async Task<IActionResult> ViewOrder(string orderNum)
+        {
+            if (string.IsNullOrEmpty(orderNum))
+            {
+                return NotFound();
+            }
+
+            var order = await _orderDetailService.GetOrderDetails(orderNum);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -54,9 +54,9 @@ namespace PatenPottery.ViewModels
         public ProcessFlow processFlow { get; set; }
     }
 
-    public class OrderListView
+    public class OrderListViewModel
     {
-        public OrderListView(OrderDetail order)
+        public OrderListViewModel(OrderDetail order)
         {
             OrderNumber = order.OrderNumber;
             Name = order.Customerdetail.Name;
