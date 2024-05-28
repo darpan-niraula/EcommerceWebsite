@@ -17,5 +17,7 @@ namespace PatenPottery.Interface
 
         Task<OrderListViewModel> GetOrderDetails(string orderNum);
 
+        Task<bool> UpdateStatusAsync(string newStatus);
+                
     }
 }

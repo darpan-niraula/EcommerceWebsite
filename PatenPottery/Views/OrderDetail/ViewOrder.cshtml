@@ -407,8 +407,12 @@
                                     <p class="form-control-static"><label>Address</label> : @Model.Address</p>
                                 </div>
                                 <div class="form-group">
-                                    
-                                    <p class="form-control-static"><label>Status</label> : @Model.Status</p>
+                                    <label for="status">Status:</label>
+                                    <select class="form-control" id="status" name="status" onchange="updateStatus()">
+                                        <option value="Pending">@Model.Status</option>
+                                        <option value="Processing">FireDone</option>
+                                        <option value="Completed">GlazeDone</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                   
@@ -498,5 +502,7 @@
 
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
+
+    <script src="~/js/vieworder.js"></script>
 
 </body>

@@ -120,5 +120,27 @@ namespace PatenPottery.Service
             return order;
         }
 
+        public async Task<bool> UpdateStatusAsync(string newStatus)
+        {
+            try
+            {
+                var order = await _context.OrderDetails
+                    .Include(a => a.StatusCode)
+                    .FirstOrDefaultAsync(); 
+                if (order != null)
+                {
+                    order.StatusCD = (await Getcode(newStatus)).CodeId;
+                    await _context.SaveChangesAsync();
+                    return true; 
+                }
+                return false; 
+            }
+            catch (Exception)
+            {
+                
+                return false; 
+            }
+        }
+
     }
 }

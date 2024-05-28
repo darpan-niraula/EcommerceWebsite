@@ -59,6 +59,26 @@ namespace PatenPottery.Controllers
             return View(order);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus([FromBody] string newStatus)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _orderDetailService.UpdateStatusAsync(newStatus);
+                if (result)
+                {
+                    return Ok(newStatus); 
+                }
+                else
+                {
+                    return NotFound(); 
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState); 
+            }
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
