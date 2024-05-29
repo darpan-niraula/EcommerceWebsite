@@ -24,9 +24,8 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -36,12 +35,35 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Navigation Items -->
+            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                <a class="nav-link" asp-controller="OrderDetail" asp-action="Index">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Index</span>
+                </a>
+            </li>
+            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Create" ? "active" : "")">
+                <a class="nav-link" asp-controller="OrderDetail" asp-action="Create">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>Add Orders</span>
+                </a>
+            </li>
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Codes" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                <a class="nav-link" asp-controller="Codes" asp-action="Index">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Codes</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
         </ul>
+
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
