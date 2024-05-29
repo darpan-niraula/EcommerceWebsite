@@ -190,11 +190,15 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Login")" method="post">
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    @RenderSection("Scripts", required: false)
 
     <!-- Bootstrap core JavaScript-->
     <script src="~/lib/jquery/jquery.min.js"></script>
@@ -208,7 +212,7 @@
 
     <!-- Page level plugins -->
     <script src="~/lib/datatables/jquery.datatables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables/datatables.bootstrap4.min.js"></script>
     <script src="~/lib/datatables/datatables.bootstrap4.min.css"></script>
 
     <!-- Page level custom scripts -->
