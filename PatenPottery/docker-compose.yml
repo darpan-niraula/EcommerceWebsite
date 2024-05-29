@@ -11,18 +11,26 @@ services:
       - ppottery_network
     depends_on:
       - sql_server
-    
+
   sql_server:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA="Y"
+      - SA_PASSWORD=tohfa@123
+      - MSSQL_PID=Express 
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
     ports:
       - "1433:1433"
     container_name: mssql_server
     networks:
       - ppottery_network
-      
+
 networks:
   ppottery_network:
     name: ppottery_network
     driver: bridge
+
+volumes:
+  sqlserverdata:
