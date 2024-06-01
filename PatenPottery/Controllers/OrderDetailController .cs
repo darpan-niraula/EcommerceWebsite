@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace PatenPottery.Controllers
 {
-    [Authorize]
+    
     public class OrderDetailController : Controller
     {
         private readonly ILogger<OrderDetailController> _logger;
@@ -19,6 +19,7 @@ namespace PatenPottery.Controllers
             _orderDetailService = orderDetailService;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var orderList = await _orderDetailService.GetOrders();
@@ -38,7 +39,7 @@ namespace PatenPottery.Controllers
             if (ModelState.IsValid)
             {
                 await _orderDetailService.AddOrderDetailAsync(model);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             return View(model);
         }
