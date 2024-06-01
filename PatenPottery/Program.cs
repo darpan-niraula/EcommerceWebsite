@@ -4,6 +4,7 @@ using PatenPottery.Models;
 using PatenPottery.Service;
 using Microsoft.AspNetCore.Identity;
 using System;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -32,6 +33,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 //builder.Services.AddDefaultIdentity<IdentityUser>()
 //                .AddEntityFrameworkStores<PatenPotteryContext>();
+
+// Register email settings and email sender service
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

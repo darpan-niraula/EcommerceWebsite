@@ -11,6 +11,8 @@ namespace PatenPottery.Models
         public DbSet<ProcessFlow> ProcessFlows { get; set; }
         public DbSet<Code> Codes { get; set; }
 
+        //public DbSet<RegisterInputModel> registerInputModels { get; set; }
+
         public PatenPotteryContext(DbContextOptions<PatenPotteryContext> options) : base(options)
         {
         }

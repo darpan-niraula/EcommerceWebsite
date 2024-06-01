@@ -42,12 +42,6 @@
                     <span>Index</span>
                 </a>
             </li>
-            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Create" ? "active" : "")">
-                <a class="nav-link" asp-controller="OrderDetail" asp-action="Create">
-                    <i class="fas fa-fw fa-plus"></i>
-                    <span>Add Orders</span>
-                </a>
-            </li>
             <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Codes" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
                 <a class="nav-link" asp-controller="Codes" asp-action="Index">
                     <i class="fas fa-fw fa-list"></i>
