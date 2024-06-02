@@ -1,0 +1,20 @@
+--02/06/2024 Tohfa
+
+CREATE OR ALTER PROCEDURE GET_ORDER_DETAILS
+AS
+BEGIN
+    SELECT 
+        od.OrderNumber as OrderNumber,
+        cd.[Name] as [Name], 
+        cd.[Name] as Number, 
+        cd.[Address] as [Address], 
+        sc.[Description] as [Status],
+		od.[Image] as [Image] 
+    FROM 
+        OrderDetails od
+    LEFT JOIN 
+        CustomerDetails cd ON od.CustomerId = cd.CustomerId
+    LEFT JOIN 
+        Codes sc ON od.StatusCD = sc.CodeId
+END
+GO

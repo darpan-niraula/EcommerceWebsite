@@ -1,6 +1,5 @@
 ﻿using PatenPottery.Common;
 using PatenPottery.Models;
-using System.Drawing;
 
 namespace PatenPottery.ViewModels
 {
@@ -67,6 +66,16 @@ namespace PatenPottery.ViewModels
             Image = Convert.ToBase64String(order.Image);
         }
 
+        public OrderListViewModel(OrderListResult order)
+        {
+            OrderNumber = order.OrderNumber;
+            Name = order.Name;
+            Number = order.Number;
+            Address = order.Address;
+            Status = order.Status;
+            Image = order.Image;
+        }
+
         public string OrderNumber { get; set; }
         public string Name { get; set; }
         public long Number { get; set; }
@@ -74,4 +83,15 @@ namespace PatenPottery.ViewModels
         public string Status { get; set; }
         public string Image { get; set; }
     }
+
+    public class OrderListResult
+    {
+        public string? OrderNumber { get; set; }
+        public string? Name { get; set; }
+        public long Number { get; set; }
+        public string? Address { get; set; }
+        public string? Status { get; set; }
+        public string? Image { get; set; }
+    }
+
 }

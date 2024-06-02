@@ -35,12 +35,28 @@ namespace PatenPottery.Service
 
         public async Task<List<OrderListViewModel>> GetOrders()
         {
-            var orders = await _context.OrderDetails
-                .Include(a => a.Customerdetail)
-                .Include(a => a.ProcessFlow)
-                .Include(a => a.StatusCode).Select(a => new OrderListViewModel(a))
-                .ToListAsync();
-            return orders;
+            try
+            {
+                var orderResults = await _context.OrderListResult
+                                    .FromSqlRaw("EXEC GET_ORDER_DETAILS")
+                                    .ToListAsync();
+
+                // Convert the results to the view model
+                var orderViewModels = orderResults.Select(order => new OrderListViewModel(order)).ToList();
+
+
+                //var orders = await _context.OrderDetails
+                //.Include(a => a.Customerdetail)
+                //.Include(a => a.ProcessFlow)
+                //.Include(a => a.StatusCode).Select(a => new OrderListViewModel(a))
+                //.ToListAsync();
+                return orderViewModels;
+            }
+            catch (Exception ex)
+            {
+                var test = ex;
+                return new List<OrderListViewModel>();
+            }
         }
 
         public async Task AddOrderDetailAsync(OrderDetailViewModel model)
@@ -126,19 +142,19 @@ namespace PatenPottery.Service
             {
                 var order = await _context.OrderDetails
                     .Include(a => a.StatusCode)
-                    .FirstOrDefaultAsync(); 
+                    .FirstOrDefaultAsync();
                 if (order != null)
                 {
                     order.StatusCD = (await Getcode(newStatus)).CodeId;
                     await _context.SaveChangesAsync();
-                    return true; 
+                    return true;
                 }
-                return false; 
+                return false;
             }
             catch (Exception)
             {
-                
-                return false; 
+
+                return false;
             }
         }
 

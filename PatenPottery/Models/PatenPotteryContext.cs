@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PatenPottery.ViewModels;
 
 namespace PatenPottery.Models
 {
-    public class PatenPotteryContext : IdentityDbContext <IdentityUser>
+    public class PatenPotteryContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<CustomerDetail> CustomerDetails { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -12,6 +13,7 @@ namespace PatenPottery.Models
         public DbSet<Code> Codes { get; set; }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<OrderListResult> OrderListResult { get; set; }
 
         public PatenPotteryContext(DbContextOptions<PatenPotteryContext> options) : base(options)
         {
@@ -48,6 +50,9 @@ namespace PatenPottery.Models
             .WithOne(c => c.OrderDetail)
             .HasForeignKey<OrderDetail>(o => o.StatusCD);
             base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<OrderListResult>().HasNoKey();
 
         }
     }
