@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PatenPottery.Common;
 using PatenPottery.Models;
 using PatenPottery.ViewModels;
 
@@ -57,10 +58,12 @@ namespace PatenPottery.Controllers
         {
             if (ModelState.IsValid)
             {
+                var utility = new Utility();
                 var product = new Product
                 {
                     ProductId = productVM.ProductId,
                     ProductName = productVM.ProductName,
+                    Image = productVM.Image == null ? null : utility.ConvertToByteArray(productVM.Image)
                 };
                 _context.Add(product);
                 await _context.SaveChangesAsync();

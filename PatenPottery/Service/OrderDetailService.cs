@@ -37,6 +37,7 @@ namespace PatenPottery.Service
         {
             try
             {
+
                 var orderResults = await _context.OrderListResult
                                     .FromSqlRaw("EXEC GET_ORDER_DETAILS")
                                     .ToListAsync();
