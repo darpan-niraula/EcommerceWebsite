@@ -63,7 +63,9 @@ namespace PatenPottery.Controllers
                 {
                     ProductId = productVM.ProductId,
                     ProductName = productVM.ProductName,
-                    Image = productVM.Image == null ? null : utility.ConvertToByteArray(productVM.Image)
+                    Image = productVM.Image == null ? null : utility.ConvertToByteArray(productVM.Image),
+                    Price = productVM.Price,
+                    Description = productVM.Description,
                 };
                 _context.Add(product);
                 await _context.SaveChangesAsync();
