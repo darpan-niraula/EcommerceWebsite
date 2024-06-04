@@ -95,7 +95,7 @@ namespace PatenPottery.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,image")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Description")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -106,7 +106,20 @@ namespace PatenPottery.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    var existingProduct = await _context.Products.FindAsync(id);
+                    if (existingProduct == null)
+                    {
+                        return NotFound();
+                    }
+
+                   
+                    existingProduct.ProductName = product.ProductName;
+                    existingProduct.Price = product.Price;
+                    existingProduct.Description = product.Description;
+
+                 
+
+                    _context.Update(existingProduct);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -124,6 +137,7 @@ namespace PatenPottery.Controllers
             }
             return View(product);
         }
+
 
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
