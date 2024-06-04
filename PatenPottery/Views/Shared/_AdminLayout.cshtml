@@ -54,6 +54,12 @@
                     <span>Products</span>
                 </a>
             </li>
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Services" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                <a class="nav-link" asp-controller="Services" asp-action="Index">
+                    <i class="fas fa-gift"></i>
+                    <span>Services</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
