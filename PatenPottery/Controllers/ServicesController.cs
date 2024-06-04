@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PatenPottery.Models;
 using PatenPottery.ViewModels;
+using PatenPottery.Common;
 
 namespace PatenPottery.Controllers
 {
@@ -58,14 +59,16 @@ namespace PatenPottery.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ServiceId,ServiceName,ServiceDescription,Price")] ServiceViewModel serviceVM)
+        public async Task<IActionResult> Create(ServiceViewModel serviceVM)
         {
             if (ModelState.IsValid)
             {
+                var utility = new Utility();
                 var service = new Models.Service
                 {
                     ServiceId = serviceVM.ServiceId,
                     ServiceName = serviceVM.ServiceName,
+                    Image = serviceVM.Image == null ? null : utility.ConvertToByteArray(serviceVM.Image),
                     Price = serviceVM.Price,
                     ServiceDescription = serviceVM.ServiceDescription,
                 };
@@ -108,7 +111,18 @@ namespace PatenPottery.Controllers
             {
                 try
                 {
-                    _context.Update(service);
+                    var existingService = await _context.Services.FindAsync(id);
+                    if (existingService == null)
+                    {
+                        return NotFound();
+                    }
+
+
+                    existingService.ServiceName = service.ServiceName;
+                    existingService.Price = service.Price;
+                    existingService.ServiceDescription = service.ServiceDescription;
+
+                    _context.Update(existingService);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
