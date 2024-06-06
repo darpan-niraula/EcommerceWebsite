@@ -1,10 +1,9 @@
-﻿// AccountController.cs
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Policy;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 public class AccountController : Controller
 {
@@ -25,22 +24,28 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
+            
+            if (string.IsNullOrEmpty(model.Email) || !IsValidEmail(model.Email))
+            {
+                ModelState.AddModelError(string.Empty, "Invalid email address.");
+                return View(model);
+            }
+            
+
             var user = new IdentityUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                // Generate the email confirmation token
+                
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                // Create the confirmation link
+                
                 var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
 
-                // Send the email
                 await _emailSender.SendEmailAsync(model.Email, "Confirm your email",
                     $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>link</a>");
 
-                // Optionally, sign in the user
-                // await _signInManager.SignInAsync(user, isPersistent: false);
+                
 
                 return RedirectToAction("Index", "Home");
             }
@@ -82,4 +87,19 @@ public class AccountController : Controller
             ModelState.AddModelError(string.Empty, error.Description);
         }
     }
+
+    
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var mailAddress = new MailAddress(email);
+            return true;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+    }
+    
 }
