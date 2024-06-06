@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Our Services</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
 </head>
 <body>
@@ -23,14 +24,16 @@
                             </h2>
                         </div>
                     </div>
-                    @if (service.Image != null && service.Image.Length > 0)
-                    {
-                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="data:image;base64,@Convert.ToBase64String(service.Image)" alt="@service.ServiceName" />
-                    }
-                    else
-                    {
-                        <img class="product-item-img mx-auto d-flex rounded img-fluid mb-3 mb-lg-0" src="~/assets/img/default-image.jpg" alt="Default Image" />
-                    }
+                    <div class="d-flex justify-content-center mb-3 mb-lg-0">
+                        @if (service.Image != null && service.Image.Length > 0)
+                        {
+                            <img class="product-item-img rounded img-fluid" src="data:image;base64,@Convert.ToBase64String(service.Image)" alt="@service.ServiceName" style="width: 800px; height: 300px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <img class="product-item-img rounded img-fluid" src="~/assets/img/default-image.jpg" alt="Default Image" style="width: 400px; height: 200px; object-fit: cover;" />
+                        }
+                    </div>
                     <div class="product-item-description d-flex @(counter % 2 == 0 ? "me-auto" : "ms-auto")">
                         <div class="bg-faded p-5 rounded">
                             <p class="mb-0">Price: @service.Price</p>
@@ -41,5 +44,7 @@
         </section>
         counter++;
     }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

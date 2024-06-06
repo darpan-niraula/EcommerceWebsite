@@ -42,6 +42,12 @@ namespace PatenPottery.Controllers
             return View();
         }
 
+        public IActionResult Products()
+        {
+            var products = _patentContext.Products.ToList();
+            return View(products);
+        }
+
         public IActionResult Privacy()
         {
             return View();
