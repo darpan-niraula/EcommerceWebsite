@@ -60,7 +60,7 @@ namespace PatenPottery.ViewModels
         {
             OrderNumber = order.OrderNumber;
             Name = order.Customerdetail.Name;
-            Number = Convert.ToString(order.Customerdetail.Number);
+            Number = order.Customerdetail.Number;
             Address = order.Customerdetail.Address;
             Status = order.StatusCode.Description;
             Image = Convert.ToBase64String(order.Image);
@@ -78,7 +78,7 @@ namespace PatenPottery.ViewModels
 
         public string OrderNumber { get; set; }
         public string Name { get; set; }
-        public string Number { get; set; }
+        public long Number { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
         public string Image { get; set; }
@@ -88,7 +88,7 @@ namespace PatenPottery.ViewModels
     {
         public string? OrderNumber { get; set; }
         public string? Name { get; set; }
-        public string Number { get; set; }
+        public long Number { get; set; }
         public string? Address { get; set; }
         public string? Status { get; set; }
         public byte[]? Image { get; set; }
