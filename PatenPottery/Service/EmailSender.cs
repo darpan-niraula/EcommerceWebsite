@@ -1,8 +1,6 @@
-﻿using System.Net;
+﻿using Microsoft.Extensions.Options;
+using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Options;
 
 public class EmailSender : IEmailSender
 {
@@ -15,21 +13,29 @@ public class EmailSender : IEmailSender
 
     public async Task SendEmailAsync(string email, string subject, string message)
     {
-        var client = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort)
+        try
         {
-            Credentials = new NetworkCredential(_emailSettings.SmtpUsername, _emailSettings.SmtpPassword),
-            EnableSsl = true
-        };
+            var client = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort)
+            {
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_emailSettings.SmtpUsername, _emailSettings.SmtpPassword),
+                EnableSsl = true
+            };
 
-        var mailMessage = new MailMessage
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName),
+                Subject = subject,
+                Body = message,
+                IsBodyHtml = true
+            };
+            mailMessage.To.Add(email);
+
+            client.Send(mailMessage);
+        }
+        catch (Exception ex)
         {
-            From = new MailAddress(_emailSettings.FromEmail, _emailSettings.FromName),
-            Subject = subject,
-            Body = message,
-            IsBodyHtml = true
-        };
-        mailMessage.To.Add(email);
-
-        await client.SendMailAsync(mailMessage);
+            throw new Exception(message = ex.Message);
+        }
     }
 }
