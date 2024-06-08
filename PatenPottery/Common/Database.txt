@@ -6,7 +6,7 @@ BEGIN
     SELECT 
         od.OrderNumber as OrderNumber,
         cd.[Name] as [Name], 
-        cd.[Name] as Number, 
+        cd.Number as Number, 
         cd.[Address] as [Address], 
         sc.[Description] as [Status],
 		od.[Image] as [Image] 
@@ -17,4 +17,14 @@ BEGIN
     LEFT JOIN 
         Codes sc ON od.StatusCD = sc.CodeId
 END
+GO
+
+
+-- 08/06/2024 Tohfa Niraula
+
+DROP INDEX IX_OrderDetails_StatusCD ON dbo.OrderDetails;
+GO
+DROP INDEX IX_OrderDetails_CustomerId ON dbo.OrderDetails;
+GO
+DROP INDEX IX_OrderDetails_ProcessFlowID ON dbo.OrderDetails;
 GO
