@@ -3,66 +3,69 @@
 @{
     ViewData["Title"] = "View Order";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var statusList = ViewBag.OrderStatus as List<Code>;
 }
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+    <button id="editButton" class="btn btn-primary mb-4">Edit Order Detail</button>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-body">
-            <div class="table-responsive">
-                <h1>Order Details</h1>
+            <h3 class="mb-4">Order Details</h3>
 
-                <div class="form-group">
-
-                    <p class="form-control-static"><label>Order Number</label> : @Model.OrderNumber</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="orderNumber" class="font-weight-bold">Order Number:</label>
+                        <p class="form-control-static editable">@Model.OrderNumber</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="font-weight-bold">Name:</label>
+                        <p class="form-control-static editable">@Model.Name</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="number" class="font-weight-bold">Number:</label>
+                        <p class="form-control-static editable">@Model.Number</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="font-weight-bold">Address:</label>
+                        <p class="form-control-static editable">@Model.Address</p>
+                    </div>
                 </div>
-                <div class="form-group">
-
-                    <p class="form-control-static"><label>Name</label> : @Model.Name</p>
-                </div>
-                <div class="form-group">
-
-                    <p class="form-control-static"><label>Number</label> : @Model.Number</p>
-                </div>
-                <div class="form-group">
-
-                    <p class="form-control-static"><label>Address</label> : @Model.Address</p>
-                </div>
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select class="form-control dropdownMid" id="status" name="status" onchange="updateStatus()" style=" width: fit-content;">
-                        <option value="Pending">@Model.Status</option>
-                        <option value="Processing">FireDone</option>
-                        <option value="Completed">GlazeDone</option>
-                    </select>
-                </div>
-                <div class="form-group">
-
-                    @{
-                        string imgSrc = string.Empty;
-                        if (Model.Image != null && Model.Image.Length > 0)
-                        {
-                            var Image = Model.Image;
-                            imgSrc = $"data:image/jpg;base64,{Image}";
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="status" class="font-weight-bold">Status:</label>
+                        <select class="form-control dropdownMid" id="status" name="status" onchange="updateStatus()" style="width: fit-content;">
+                            @foreach (var status in statusList)
+                            {
+                                var isSelected = status.Value == Model.Status ? "selected" : "";
+                                <option value="@status.Value" selected="@isSelected">@status.Description</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        @{
+                            string imgSrc = string.Empty;
+                            if (Model.Image != null && Model.Image.Length > 0)
+                            {
+                                var Image = Model.Image;
+                                imgSrc = $"data:image/jpg;base64,{Image}";
+                            }
                         }
-                        // else
-                        // {
-                        //     var imgSrc = "/path/to/default/image.png";
-                        // }
-                    }
-                    <p class="form-control-static">
-                        <label>Image</label> :
-                    <p>
-                        <img src="@imgSrc" alt="Order Image" class="img-fluid viewImageSmall" style="max-width: 200px !important; height: auto;" />
-                    </p>
-                    </p>
+                        <label for="image" class="font-weight-bold">Image:</label>
+                        <div class="mt-2">
+                            <img src="@imgSrc" alt="Order Image" class="img-fluid viewImageSmall" style="max-width: 200px !important; height: auto;" />
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
 
 </div>
 <!-- /.container-fluid -->
+@section Scripts {
+    <script src="~/js/createorder.js"></script>
+}

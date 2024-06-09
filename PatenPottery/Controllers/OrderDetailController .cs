@@ -62,7 +62,7 @@ namespace PatenPottery.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.OrderStatus = await _orderDetailService.GetcodeByParent("ORDER_STATUS");
             var order = await _orderDetailService.GetOrderDetails(orderNum);
 
             if (order == null)

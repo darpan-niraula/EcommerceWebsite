@@ -1,4 +1,14 @@
-﻿function CreateOrder() {
+﻿$(document).ready(function () {
+    $('#editButton').click(function () {
+        $('.editable').toggleClass('form-control form-control-static');
+        // Toggle button text
+        var buttonText = $(this).text() === "Edit Order Detail" ? "View Order Detail" : "Edit Order Detail";
+        $(this).text(buttonText);
+    });
+});
+
+
+function CreateOrder() {
     var form = $('#createOrderForm')[0];
     var data = new FormData(form);
 

@@ -226,7 +226,6 @@
         </div>
     </div>
 
-    @RenderSection("Scripts", required: false)
 
     <!-- Bootstrap core JavaScript-->
     <script src="~/lib/jquery/jquery.min.js"></script>
@@ -241,7 +240,7 @@
     <!-- Page level plugins -->
     <script src="~/lib/datatables/jquery.datatables.min.js"></script>
     <script src="~/lib/datatables/datatables.bootstrap4.min.js"></script>
-    <script src="~/lib/datatables/datatables.bootstrap4.min.css"></script>
+    @RenderSection("Scripts", required: false)
 
     <!-- Page level custom scripts -->
     <script src="~/js/demo/datatables-demo.js"></script>
