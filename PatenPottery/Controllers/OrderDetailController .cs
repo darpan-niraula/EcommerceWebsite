@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PatenPottery.Common;
 using PatenPottery.Interface;
 using PatenPottery.Models;
 using PatenPottery.ViewModels;
@@ -7,7 +8,7 @@ using System.Diagnostics;
 
 namespace PatenPottery.Controllers
 {
-    
+
     public class OrderDetailController : Controller
     {
         private readonly ILogger<OrderDetailController> _logger;
@@ -38,10 +39,21 @@ namespace PatenPottery.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _orderDetailService.AddOrderDetailAsync(model);
-                return RedirectToAction(nameof(Create));
+                try
+                {
+
+                    await _orderDetailService.AddOrderDetailAsync(model);
+                    return Json(new { success = true, message = "Successfully Saved" });
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception and return an appropriate error message
+                    return Json(new { success = false, message = "An error occurred while saving the order." });
+                }
             }
-            return View(model);
+            var message = Utility.GetModelStateErrors(ModelState);
+
+            return Json(new { success = false, message = message });
         }
 
         public async Task<IActionResult> ViewOrder(string orderNum)

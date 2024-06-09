@@ -8,3 +8,9 @@ window.addEventListener('DOMContentLoaded', event => {
     const listHoursArray = document.body.querySelectorAll('.list-hours li');
     listHoursArray[new Date().getDay()].classList.add(('today'));
 })
+
+function savesuccess(result) {
+    document.getElementById('saveSuccessResult').innerHTML = result; // Use innerHTML to render raw HTML
+    var saveSuccessModal = new bootstrap.Modal(document.getElementById('saveSuccessModal'));
+    saveSuccessModal.show();
+}

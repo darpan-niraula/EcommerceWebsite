@@ -14,7 +14,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
 
-                                <form asp-action="Create" enctype="multipart/form-data" method="post">
+                                <form asp-action="Create" enctype="multipart/form-data" method="post" onsubmit="event.preventDefault(); CreateOrder();" id="createOrderForm">
                                     @Html.AntiForgeryToken()
 
                                     <div class="form-group">
@@ -68,4 +68,6 @@
         </div>
     </div>
 </section>
-
+@section Scripts {
+    <script src="~/js/createorder.js"></script>
+}
