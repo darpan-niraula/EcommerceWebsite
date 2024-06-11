@@ -49,6 +49,19 @@ namespace PatenPottery.Controllers
         // GET: Codes/Create
         public IActionResult Create()
         {
+
+            // Fetch the existing ParentCodeId values
+            var existingParentCodeIds = _context.Codes
+                                             .Where(c => c.ParentCodeId.HasValue)
+                                             .Select(c => c.ParentCodeId.Value)
+                                             .ToList();
+
+            // Determine available numbers from 1 to 20 that aren't already assigned
+            var availableParentCodeIds = Enumerable.Range(1, 20).Except(existingParentCodeIds).ToList();
+
+            // Pass the availableParentCodeIds to the view using ViewBag
+            ViewBag.AvailableParentCodeIds = availableParentCodeIds;
+
             return View();
         }
 
