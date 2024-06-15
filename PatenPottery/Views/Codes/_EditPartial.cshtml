@@ -1,0 +1,25 @@
+﻿@model PatenPottery.Models.Code
+
+<form id="editForm" asp-action="Edit" asp-controller="Codes" method="post">
+    <div class="form-group">
+        <label asp-for="Value" class="control-label"></label>
+        <input asp-for="Value" class="form-control" />
+        <input asp-for="CodeId" hidden class="form-control" />
+        <span asp-validation-for="Value" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ParentCodeId" class="control-label">Parent Code</label>
+        <select asp-for="ParentCodeId" class="form-control" asp-items="ViewBag.ParentCodes">
+            <option value="">Select Parent Code</option>
+        </select>
+        <span asp-validation-for="ParentCodeId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>

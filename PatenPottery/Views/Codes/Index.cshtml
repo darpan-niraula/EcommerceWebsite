@@ -5,44 +5,93 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Codes</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Value)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentCodeId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentCodeId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CodeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CodeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CodeId">Delete</a>
-            </td>
-        </tr>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Parent Codes</h4>
+        <select id="parentCodesDropdown" class="form-control">
+            <option value="">Select Parent Code</option>
+            @foreach (var parentCode in ViewBag.ParentCodes)
+            {
+                <option value="@parentCode.Value">@parentCode.Text</option>
+            }
+        </select>
+        <div id="childCodesList" class="mt-3" style="height: 300px; overflow-y: scroll;">
+            <!-- Child codes will be loaded here -->
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4>Code Details</h4>
+        <div id="codeForm">
+            <form id="editForm">
+                <fieldset disabled>
+                    <div class="form-group">
+                        <label for="Value">Value</label>
+                        <input type="text" class="form-control" id="Value" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ParentCodeId">Parent Code Id</label>
+                        <input type="text" class="form-control" id="ParentCodeId" />
+                    </div>
+                    <button type="submit" class="btn btn-primary" disabled>Create</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#parentCodesDropdown').change(function () {
+                var parentId = $(this).val();
+                if (parentId) {
+                    $.getJSON('@Url.Action("GetChildCodes")?parentId=' + parentId, function (data) {
+                        var childCodesList = $('#childCodesList');
+                        childCodesList.empty();
+                        $.each(data, function (index, item) {
+                            childCodesList.append('<a href="#" class="list-group-item list-group-item-action" data-id="' + item.codeId + '">' + item.value + '</a>');
+                        });
+                    });
+                } else {
+                    $('#childCodesList').empty();
+                }
+            });
+
+            $('#childCodesList').on('click', 'a', function (e) {
+                e.preventDefault();
+                var codeId = $(this).data('id');
+                $('#codeForm').load('@Url.Action("Edit")?id=' + codeId, function () {
+                    onEditFormsubmit(); // Rebind the submit event after form is loaded
+                });
+            });
+        });
+
+        function onEditFormsubmit() {
+            $('#editForm').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("Edit", "Codes")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            savesuccess(response.message);
+                        } else {
+                            savesuccess(response.message);
+                        }
+                    },
+                    error: function () {
+                        savesuccess('An error occurred while updating the code.');
+                    }
+                });
+            });
+        }
+    </script>
 }
-    </tbody>
-</table>

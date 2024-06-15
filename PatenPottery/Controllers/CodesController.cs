@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +19,15 @@ namespace PatenPottery.Controllers
         // GET: Codes
         public async Task<IActionResult> Index()
         {
-              return _context.Codes != null ? 
-                          View(await _context.Codes.ToListAsync()) :
-                          Problem("Entity set 'PatenPotteryContext.Codes'  is null.");
+            var parentCodes = await _context.Codes.Where(c => c.ParentCodeId == null).ToListAsync();
+            ViewBag.ParentCodes = new SelectList(parentCodes, "CodeId", "Value");
+            return View();
+        }
+
+        public async Task<JsonResult> GetChildCodes(int parentId)
+        {
+            var childCodes = await _context.Codes.Where(c => c.ParentCodeId == parentId).ToListAsync();
+            return Json(childCodes);
         }
 
         // GET: Codes/Details/5
@@ -81,10 +83,9 @@ namespace PatenPottery.Controllers
             return View(code);
         }
 
-        // GET: Codes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Codes == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -94,55 +95,48 @@ namespace PatenPottery.Controllers
             {
                 return NotFound();
             }
-            // Fetch the existing ParentCodeId values
-            var existingParentCodeIds = _context.Codes
-                                             .Where(c => c.ParentCodeId.HasValue)
-                                             .Select(c => c.ParentCodeId.Value)
-                                             .ToList();
+            var parentCodes = await _context.Codes.Where(c => c.ParentCodeId == null).ToListAsync();
+            ViewBag.ParentCodes = new SelectList(parentCodes, "CodeId", "Description", code.ParentCodeId);
 
-            // Determine available numbers from 1 to 20 that aren't already assigned
-            var availableParentCodeIds = Enumerable.Range(1, 20).Except(existingParentCodeIds).ToList();
-
-            // Pass the availableParentCodeIds to the view using ViewBag
-            ViewBag.AvailableParentCodeIds = availableParentCodeIds;
-
-            return View(code);
+            return PartialView("_EditPartial", code);
         }
 
-        // POST: Codes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CodeId,Value,Description,ParentCodeId")] Code code)
+        public async Task<IActionResult> Edit([Bind("CodeId,Value,Description,ParentCodeId")] Code code)
         {
-            if (id != code.CodeId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(code);
-                    await _context.SaveChangesAsync();
+                    if (code.CodeId > 0)
+                    {
+                        _context.Update(code);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        _context.Add(code);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CodeExists(code.CodeId))
                     {
-                        return NotFound();
+                        return Json(new { success = false, message = "Code not found." });
                     }
                     else
                     {
-                        throw;
+                        return Json(new { success = false, message = "Concurrency error occurred." });
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = true, message = "Code updated successfully." });
             }
-            return View(code);
+            return Json(new { success = false, message = "Invalid model state." });
         }
+
 
         // GET: Codes/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -176,14 +170,14 @@ namespace PatenPottery.Controllers
             {
                 _context.Codes.Remove(code);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CodeExists(int id)
         {
-          return (_context.Codes?.Any(e => e.CodeId == id)).GetValueOrDefault();
+            return (_context.Codes?.Any(e => e.CodeId == id)).GetValueOrDefault();
         }
     }
 }
